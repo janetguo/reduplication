@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
-import TextEvolution from "./TextEvolution";
+import TextEvolutionPage from "./TextEvolutionPage";
 
 const H = 25, W = 25;
 const SETS = [
@@ -68,16 +68,16 @@ export default function App() {
   const [key, setKey] = useState(0);
 
   if (view !== null) {
+    if (SETS[view].type === "text") {
+      return <TextEvolutionPage key={key} onBack={() => setView(null)} />;
+    }
     return (
       <div className="page-view">
         <button className="btn-back" onClick={() => setView(null)}>
           ← Back
         </button>
         <h2 className="view-title">{SETS[view].title}</h2>
-        {SETS[view].type === "text"
-          ? <TextEvolution key={key} set={SETS[view]} />
-          : <Grid key={key} set={SETS[view]} />
-        }
+        <Grid key={key} set={SETS[view]} />
       </div>
     );
   }

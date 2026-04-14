@@ -4,6 +4,8 @@ const WAVE_FILES = [
   () => import("./waves/wave1.json"),
   () => import("./waves/wave2.json"),
   () => import("./waves/wave3.json"),
+  () => import("./waves/wave4.json"),
+  () => import("./waves/wave5.json"),
 ];
 
 const PHASE_MS = 3000;

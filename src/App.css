@@ -56,6 +56,55 @@
   color: #000;
 }
 
+.page-evolution {
+  background: #000;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 48px 120px;
+  box-sizing: border-box;
+}
+
+.evolution-content {
+  max-width: 640px;
+  width: 100%;
+}
+
+.evolution-chinese {
+  font-family: 'Times New Roman', serif;
+  font-size: 20px;
+  line-height: 2;
+  margin: 0 0 8px;
+}
+
+.evolution-english {
+  font-family: 'Times New Roman', serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #aaa;
+  margin: 0 0 40px;
+}
+
+.btn-advance {
+  position: fixed;
+  bottom: 40px;
+  background: none;
+  border: 1px solid #fff;
+  color: #fff;
+  font-family: 'Times New Roman', serif;
+  font-size: 20px;
+  padding: 10px 32px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-advance:hover {
+  background: #fff;
+  color: #000;
+}
+
 .grid-text {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
