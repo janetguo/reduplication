@@ -37,15 +37,24 @@ function shuffle(arr) {
 export default function TextEvolutionPage({ onBack }) {
   const [step, setStep] = useState(0);
   const [animating, setAnimating] = useState(false);
-  const charsRef = useRef(CHINESE.map(p => p.split("")));
-  const [chars, setChars] = useState(() => CHINESE.map(p => p.split("")));
-  const simplifiedRef = useRef(CHINESE.map(p => new Array(p.split("").length).fill(false)));
+  const charsRef = useRef(CHINESE.map(p => p.normalize("NFC").split("")));
+  const [chars, setChars] = useState(() => CHINESE.map(p => p.normalize("NFC").split("")));
+  const simplifiedRef = useRef(CHINESE.map(p => new Array(p.normalize("NFC").split("").length).fill(false)));
   const wavesRef = useRef([]);
   const [ready, setReady] = useState(false);
   const timerRef = useRef(null);
 
   useEffect(() => {
-    Promise.all(WAVE_LOADERS.map(fn => fn().then(m => m.default))).then(loaded => {
+    Promise.all(WAVE_LOADERS.map(fn => fn().then(m => {
+      // Normalize all keys and values to NFC so lookups match regardless of
+      // which Unicode code point the source text uses for visually identical chars
+      const raw = m.default;
+      const normalized = {};
+      for (const [k, v] of Object.entries(raw)) {
+        normalized[k.normalize("NFC")] = v.normalize("NFC");
+      }
+      return normalized;
+    }))).then(loaded => {
       wavesRef.current = loaded;
       setReady(true);
     });
