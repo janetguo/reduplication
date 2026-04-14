@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
-import TextEvolutionPage from "./TextEvolutionPage";
+import TextEvolutionPage from "./TextEvolution";
 
 const H = 25, W = 25;
 const SETS = [
