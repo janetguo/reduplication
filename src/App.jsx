@@ -7,9 +7,8 @@ const SETS = [
   { title: "EchoOoOOoooes",   init: "口", guests: ["曰","回","吅","㗊","响","昌","唱"] },
   { title: "See the forest for the trees",  init: "人", guests: ["木","从","丛","林","森","树"] },
   { title: "Let there be light", init: "日", guests: ["月","明","朝","昌","晶","暮"] },
-  { title: "Lost in translation", type: "text", text: "在這裡貼上你的繁體中文段落。" },
 ];
-const FREQS = [0.05, 0.08, 0.1, 0.15, 0.3]; // is there something more interesting i can set it as
+const FREQS = [0.05, 0.08, 0.1, 0.15, 0.3];
 const PHASE_MS = 3000;
 const rc = a => a[Math.floor(Math.random() * a.length)];
 
@@ -66,11 +65,20 @@ function Grid({ set }) {
 export default function App() {
   const [view, setView] = useState(null);
   const [key, setKey] = useState(0);
+  const [aboutView, setAboutView] = useState(false);
+  const [aboutUnlocked, setAboutUnlocked] = useState(false);
+
+  const handleSetView = (i) => {
+    setView(i);
+    setKey(k => k + 1);
+    setAboutUnlocked(true);
+  };
+
+  if (aboutView) {
+    return <TextEvolutionPage onBack={() => setAboutView(false)} />;
+  }
 
   if (view !== null) {
-    if (SETS[view].type === "text") {
-      return <TextEvolutionPage key={key} onBack={() => setView(null)} />;
-    }
     return (
       <div className="page-view">
         <button className="btn-back" onClick={() => setView(null)}>
@@ -89,12 +97,15 @@ export default function App() {
           <div
             key={i}
             className="set-item"
-            onClick={() => { setView(i); setKey(k => k + 1); }}
+            onClick={() => handleSetView(i)}
           >
             {s.title}
           </div>
         ))}
       </div>
+      {aboutUnlocked && (
+        <button className="btn-about" onClick={() => setAboutView(true)}>关于</button>
+      )}
     </div>
   );
 }
