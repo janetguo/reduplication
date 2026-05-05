@@ -7,7 +7,7 @@ const cache = new Map(); // char -> Audio | null (null = both sources failed)
 const wikimediaUrl = (char) =>
   `https://commons.wikimedia.org/wiki/Special:FilePath/Zh-${encodeURIComponent(char)}.ogg`;
 
-const localUrl = (char) => `/sounds/${encodeURIComponent(char)}.mp3`;
+const localUrl = (char) => `/sounds/${encodeURIComponent(char)}.ogg`;
 
 function playAudio(audio) {
   audio.currentTime = 0;
