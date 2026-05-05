@@ -10,7 +10,13 @@
 .set-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
   gap: 48px;
+}
+
+.set-item:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  justify-self: center;
 }
 
 .page-view {
@@ -21,6 +27,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: none;
 }
 
 .btn-back {
@@ -123,10 +130,38 @@
   color: #000;
 }
 
+.grid-wrapper {
+  position: relative;
+}
+
+.grid-cursor {
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #fff;
+  z-index: 100;
+  user-select: none;
+}
+
 .grid-text {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   line-height: 1.2;
   letter-spacing: 2px;
   text-align: center;
+}
+
+:root {
+  --dim-opacity: 0.4;
+}
+
+.grid-text.complete .grid-cell {
+  opacity: var(--dim-opacity);
+  transition: opacity 0.15s;
+}
+
+.grid-text.complete .grid-cell:hover {
+  opacity: 1;
 }
