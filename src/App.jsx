@@ -251,7 +251,11 @@ function Rain({ pair }) {
 }
 
 export default function App() {
-  const [view, setView] = useState(null);
+  const [view, setView] = useState(() => {
+    const saved = localStorage.getItem("view");
+    const n = saved !== null ? Number(saved) : null;
+    return n !== null && n >= 0 && n < SETS.length ? n : null;
+  });
   const [key, setKey] = useState(0);
   /* About page — commented out
   const [aboutView, setAboutView] = useState(false);
@@ -260,7 +264,10 @@ export default function App() {
   const [guestIndex, setGuestIndex] = useState(0);
   const [mousePos, setMousePos] = useState({ x: -200, y: -200 });
   const [clickedEnglish, setClickedEnglish] = useState(null);
-  const [completedSets, setCompletedSets] = useState(() => new Set());
+  const [completedSets, setCompletedSets] = useState(() => {
+    const saved = localStorage.getItem("completedSets");
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
   const [backVisible, setBackVisible] = useState(false);
   const [clickedChars, setClickedChars] = useState(() => new Set());
   const [raining, setRaining] = useState(false);
@@ -271,6 +278,15 @@ export default function App() {
       setCompletedSets(prev => prev.has(view) ? prev : new Set(prev).add(view));
     }
   }, [view, guestIndex]);
+
+  useEffect(() => {
+    if (view === null) localStorage.removeItem("view");
+    else localStorage.setItem("view", String(view));
+  }, [view]);
+
+  useEffect(() => {
+    localStorage.setItem("completedSets", JSON.stringify([...completedSets]));
+  }, [completedSets]);
 
   const handleSetView = (i) => {
     setView(i);
@@ -293,8 +309,7 @@ export default function App() {
   if (view !== null) {
     const set = SETS[view];
     const isComplete = guestIndex >= set.guests.length;
-    const expectedChars = Object.keys(set.english ?? {});
-    const allClicked = isComplete && expectedChars.every(c => clickedChars.has(c));
+    const allClicked = isComplete && clickedChars.size >= 4;
     const cursorChar = !isComplete
       ? (set.transitions ?? set.guests)[Math.min(guestIndex, set.guests.length - 1)]
       : allClicked && set.secondCursor != null
